@@ -2,7 +2,7 @@
 
 Escribe una frase o un texto corto en inglés (hasta 3-4 líneas) y te marca los fallos: arriba tu texto con cada error tachado y su corrección, debajo una explicación en español de cada uno y el texto corregido completo.
 
-Usa un modelo de OpenAI (por defecto `gpt-4o-mini`) con tu clave.
+Usa un modelo de OpenAI (por defecto `gpt-6-luna`) con tu clave.
 
 ## Primera vez
 
@@ -20,7 +20,14 @@ Escribe el texto y pulsa «Corregir» (o Ctrl+Intro).
 
 ## Cambiar de modelo
 
-En `.env`, cambia `OPENAI_MODEL` (por ejemplo `gpt-4.1-mini`). No hace falta reiniciar: se lee en cada corrección.
+En `.env`, cambia `OPENAI_MODEL`. No hace falta reiniciar: se lee en cada corrección.
+
+| Modelo | Corrige | Tiempo | Coste medio |
+|---|---|---|---|
+| `gpt-6-luna` (por defecto) | mejor: pilla errores de contexto y preposiciones | ~6 s | ~0,03 céntimos de $ por corrección |
+| `gpt-4o-mini` | se le escapan errores sutiles | ~3 s | ~0,02 céntimos de $ (se retira el 14-ene-2027) |
+
+Medido el 10-nov-2026 con 6 frases de práctica. `gpt-6-luna` razona antes de contestar y ese razonamiento se cobra; aun así, 50 frases al día salen por unos 0,50 $ al mes.
 
 ## Privacidad
 

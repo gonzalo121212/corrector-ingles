@@ -78,7 +78,7 @@ def test_cargar_env(tmp_path, monkeypatch):
     config.cargar_env(env)
     assert os.environ["OPENAI_API_KEY"] == "sk-prueba"
     assert "OTRA" not in os.environ
-    assert ia.modelo() == "gpt-4o-mini"
+    assert ia.modelo() == "gpt-6-luna"
     config.cargar_env(tmp_path / "no-existe")
 
 

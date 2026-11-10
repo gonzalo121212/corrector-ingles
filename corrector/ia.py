@@ -1,11 +1,11 @@
-"""Corrección con un modelo de OpenAI (por defecto gpt-4o-mini) y respuesta en formato fijo."""
+"""Corrección con un modelo de OpenAI (por defecto gpt-6-luna) y respuesta en formato fijo."""
 import json
 import os
 from typing import Callable
 
 from corrector.marcas import Fallo
 
-MODELO_POR_DEFECTO = "gpt-4o-mini"
+MODELO_POR_DEFECTO = "gpt-6-luna"
 TIPOS = ["gramatica", "vocabulario", "ortografia", "puntuacion", "naturalidad"]
 
 INSTRUCCIONES = """Eres un profesor de inglés nativo que corrige frases de un alumno hispanohablante que está practicando.
