@@ -1,0 +1,75 @@
+:root {
+  --fondo: #f6f5f2; --tarjeta: #ffffff; --texto: #23262b; --suave: #6b7078;
+  --borde: #e2e0da; --acento: #2f6f5e; --acento-texto: #ffffff;
+  --error: #b3361f; --error-fondo: #fbe9e5; --sug: #8a5a00; --sug-fondo: #fdf1d8;
+  --bien: #2f6f5e; --bien-fondo: #e3f1ec;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fondo: #17191c; --tarjeta: #212429; --texto: #e8e9ea; --suave: #9aa0a8;
+    --borde: #33373d; --acento: #5fb59d; --acento-texto: #10201b;
+    --error: #f08a74; --error-fondo: #3a2420; --sug: #e8b85c; --sug-fondo: #352c1a;
+    --bien: #5fb59d; --bien-fondo: #1d302a;
+  }
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  margin: 0; background: var(--fondo); color: var(--texto);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+main { max-width: 760px; margin: 0 auto; padding: 24px 16px 48px; }
+h1 { font-size: 1.6rem; margin: 0 0 16px; }
+h2 { font-size: 1.05rem; margin: 0 0 10px; }
+.tarjeta {
+  background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px;
+  padding: 16px; margin-bottom: 16px;
+}
+label { display: block; margin: 0 0 6px; font-size: .9rem; color: var(--suave); }
+textarea {
+  width: 100%; padding: 12px; font: inherit; font-size: 1.05rem; color: var(--texto);
+  background: var(--fondo); border: 1px solid var(--borde); border-radius: 8px; resize: vertical;
+}
+textarea:focus { outline: 2px solid var(--acento); outline-offset: -1px; }
+.pie-form { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
+button {
+  background: var(--acento); color: var(--acento-texto); border: 0; border-radius: 8px;
+  padding: 10px 22px; font: inherit; font-weight: 600; cursor: pointer;
+}
+button.secundario { background: transparent; color: var(--texto); border: 1px solid var(--borde); padding: 6px 12px; font-weight: 500; }
+button:disabled { opacity: .6; cursor: default; }
+.suave { color: var(--suave); font-size: .9rem; }
+.pequeno { font-size: .8rem; text-align: right; }
+.error { color: var(--error); margin: 12px 0 0; }
+.cabecera { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 10px; }
+.cabecera h2 { margin: 0; }
+
+.resultado, .corregido { font-size: 1.15rem; line-height: 2.1; margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.marca { border-radius: 4px; padding: 1px 3px; }
+.marca del { text-decoration-thickness: 2px; }
+.marca ins { text-decoration: none; font-weight: 600; color: var(--bien); }
+.marca sup { font-size: .7em; font-weight: 700; margin-left: 2px; }
+.marca.error { background: var(--error-fondo); }
+.marca.error del, .marca.error sup { color: var(--error); }
+.marca.sugerencia { background: var(--sug-fondo); }
+.marca.sugerencia del, .marca.sugerencia sup { color: var(--sug); }
+.veredicto { margin: 0 0 8px; padding: 8px 12px; border-radius: 8px; font-weight: 600; }
+.veredicto.bien { background: var(--bien-fondo); color: var(--bien); }
+.veredicto.aviso { background: var(--sug-fondo); color: var(--sug); }
+.leyenda { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; font-size: .85rem; color: var(--suave); }
+.muestra { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+.muestra.error-m { background: var(--error); }
+.muestra.sugerencia-m { background: var(--sug); }
+
+.explicacion { margin: 0; padding-left: 0; list-style: none; }
+.explicacion li { padding: 10px 0; border-top: 1px solid var(--borde); }
+.explicacion li:first-child { border-top: 0; padding-top: 0; }
+.explicacion .cambio { font-weight: 600; overflow-wrap: anywhere; }
+.explicacion .num { display: inline-block; min-width: 1.6em; font-weight: 700; }
+.explicacion .num.error { color: var(--error); }
+.explicacion .num.sugerencia { color: var(--sug); }
+.explicacion del { color: var(--error); }
+.explicacion li.sugerencia del { color: var(--sug); }
+.explicacion ins { color: var(--bien); text-decoration: none; }
+.etiqueta { font-size: .75rem; color: var(--suave); border: 1px solid var(--borde); border-radius: 99px; padding: 0 8px; margin-left: 6px; font-weight: 500; white-space: nowrap; }
+.explicacion p { margin: 4px 0 0 1.6em; }

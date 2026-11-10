@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Corrector de inglés</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <main>
+    <h1>Corrector de inglés</h1>
+
+    <section class="tarjeta">
+      <form id="formulario">
+        <label for="texto">Tu texto en inglés</label>
+        <textarea id="texto" rows="4" maxlength="800" placeholder="Yesterday I go to the office and they didn't listened me." autofocus></textarea>
+        <div class="pie-form">
+          <span class="suave"><span id="contador">0</span>/800 · Ctrl+Intro para corregir</span>
+          <button id="corregir" type="submit">Corregir</button>
+        </div>
+        <p id="error" class="error" role="alert" hidden></p>
+      </form>
+    </section>
+
+    <section id="salida" hidden>
+      <section class="tarjeta">
+        <h2>Resultado</h2>
+        <p id="veredicto" class="veredicto" hidden></p>
+        <p id="resultado" class="resultado"></p>
+        <div id="leyenda" class="leyenda" hidden>
+          <span><i class="muestra error-m"></i>Error</span>
+          <span><i class="muestra sugerencia-m"></i>Sugerencia (correcto, pero poco natural)</span>
+        </div>
+      </section>
+
+      <section id="caja-explicacion" class="tarjeta">
+        <h2>Explicación</h2>
+        <ol id="explicacion" class="explicacion"></ol>
+      </section>
+
+      <section id="caja-corregido" class="tarjeta">
+        <div class="cabecera">
+          <h2>Texto corregido</h2>
+          <button id="copiar" type="button" class="secundario">Copiar</button>
+        </div>
+        <p id="corregido" class="corregido"></p>
+      </section>
+      <p id="modelo" class="suave pequeno"></p>
+    </section>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>
