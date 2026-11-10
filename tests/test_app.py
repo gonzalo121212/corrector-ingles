@@ -80,3 +80,38 @@ def test_cargar_env(tmp_path, monkeypatch):
     assert "OTRA" not in os.environ
     assert ia.modelo() == "gpt-4o-mini"
     config.cargar_env(tmp_path / "no-existe")
+
+
+def _error_400(mensaje):
+    import httpx
+    import openai
+    resp = httpx.Response(400, request=httpx.Request("POST", "https://api.openai.com/v1/chat/completions"))
+    return openai.BadRequestError(mensaje, response=resp, body=None)
+
+
+def test_reintenta_sin_temperature_en_modelos_que_razonan():
+    import openai
+    llamadas = []
+
+    class Completions:
+        def create(self, **kw):
+            llamadas.append(kw)
+            if "temperature" in kw:
+                raise _error_400("Unsupported value: 'temperature' does not support 0 with this model.")
+            return "ok"
+
+    cliente = type("C", (), {"chat": type("Ch", (), {"completions": Completions()})()})()
+    assert ia._crear(cliente, openai, model="gpt-6-luna") == "ok"
+    assert [("temperature" in k) for k in llamadas] == [True, False]
+
+
+def test_otros_errores_400_no_se_reintentan():
+    import openai
+
+    class Completions:
+        def create(self, **kw):
+            raise _error_400("Invalid schema")
+
+    cliente = type("C", (), {"chat": type("Ch", (), {"completions": Completions()})()})()
+    with pytest.raises(openai.BadRequestError):
+        ia._crear(cliente, openai, model="x")

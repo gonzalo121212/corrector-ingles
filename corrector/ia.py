@@ -61,6 +61,17 @@ def modelo() -> str:
     return os.environ.get("OPENAI_MODEL", "").strip() or MODELO_POR_DEFECTO
 
 
+def _crear(cliente, openai, **args):
+    """Pide temperature=0 (respuestas más estables); los modelos que razonan, como gpt-6-luna,
+    no lo admiten y entonces se repite sin ese ajuste."""
+    try:
+        return cliente.chat.completions.create(temperature=0, **args)
+    except openai.BadRequestError as e:
+        if "temperature" not in str(e).lower():
+            raise
+        return cliente.chat.completions.create(**args)
+
+
 def _llamar_openai(texto: str) -> str:
     import openai
 
@@ -68,16 +79,14 @@ def _llamar_openai(texto: str) -> str:
     if not clave:
         raise ErrorIA("Falta la clave de OpenAI: pégala en el archivo .env de la carpeta del "
                       "programa (OPENAI_API_KEY=...), guárdalo y vuelve a probar.")
-    cliente = openai.OpenAI(api_key=clave, timeout=60, max_retries=1)
+    cliente = openai.OpenAI(api_key=clave, timeout=120, max_retries=1)
     try:
-        r = cliente.chat.completions.create(
-            model=modelo(),
-            temperature=0,
-            messages=[{"role": "system", "content": INSTRUCCIONES},
-                      {"role": "user", "content": texto}],
-            response_format={"type": "json_schema",
-                             "json_schema": {"name": "correccion", "strict": True, "schema": ESQUEMA}},
-        )
+        r = _crear(cliente, openai, model=modelo(),
+                   messages=[{"role": "system", "content": INSTRUCCIONES},
+                             {"role": "user", "content": texto}],
+                   response_format={"type": "json_schema",
+                                    "json_schema": {"name": "correccion", "strict": True,
+                                                    "schema": ESQUEMA}})
     except openai.AuthenticationError:
         raise ErrorIA("OpenAI no acepta la clave del archivo .env. Revisa que esté bien copiada.") from None
     except openai.RateLimitError as e:
