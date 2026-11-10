@@ -7,7 +7,7 @@ from fastapi.staticfiles import StaticFiles
 from starlette.requests import Request
 
 from corrector import config, ia
-from corrector.marcas import segmentar
+from corrector.marcas import segmentar, texto_corregido, visibles
 
 STATIC = Path(__file__).parent / "static"
 PUERTO = 8766
@@ -46,13 +46,14 @@ def create_app(corregir=ia.corregir, allowed_hosts: set[str] | None = None,
         except ia.ErrorIA as e:
             raise HTTPException(502, str(e)) from None
         trozos = segmentar(texto, r["fallos"])
+        fallos = visibles(r["fallos"], trozos)
         return {
             "texto": texto,
             "trozos": trozos,
-            "fallos": [asdict(f) for f in r["fallos"]],
-            "texto_corregido": r["texto_corregido"],
+            "fallos": [asdict(f) for f in fallos],
+            "texto_corregido": texto_corregido(trozos),
             "aviso": r["aviso"],
-            "correcto": not r["fallos"] and not r["aviso"],
+            "correcto": not fallos and not r["aviso"],
             "modelo": ia.modelo(),
         }
 

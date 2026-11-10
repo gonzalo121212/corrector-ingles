@@ -72,6 +72,7 @@
       cab.appendChild(document.createTextNode(' → '));
       cab.appendChild(el('ins', '', f.correccion));
       cab.appendChild(el('span', 'etiqueta', TIPOS[f.tipo] || f.tipo));
+      if (!f.colocado) cab.appendChild(el('span', 'etiqueta', 'sin marcar'));
       li.appendChild(cab);
       li.appendChild(el('p', '', f.explicacion));
       ol.appendChild(li);
